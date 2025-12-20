@@ -8,8 +8,15 @@ char menuprincipale(){
   printf("    2. Carica Salvataggio\n\n");
   printf("Seleziona una delle opzioni del menu [1-2]:");
   scanf(" %c", &scelta);
+  if ( scelta != 1 && scelta != 2 ){
+  
+    return menuprincipale();
+  }
+else {
   return scelta;
-}
+    }
+  }
+  
 char menuprincipaletrucchi(){
   char sceltatrucchi;
   printf("Menu Principale:\n\n");

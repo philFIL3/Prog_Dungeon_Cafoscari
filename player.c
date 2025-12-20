@@ -9,3 +9,15 @@ int player_alive(struct player*p){
     return 1;
     else return 0;
 }
+
+void take_damage(int hp, int damage) {
+    hp-= damage;
+}
+
+void collect_coins(int coins, int denaro){
+    coins += denaro;
+}
+
+void adventure(int mission_complete){
+    mission_complete++;
+}

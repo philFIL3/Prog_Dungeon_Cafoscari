@@ -10,6 +10,7 @@ if(menuprincipale() == 2){fai questo}
 poi scriverei un ciclo while
 while(menuprincipaletrucchi()!=0){e facciamo altri tre if con le varie condizioni su cosa fanno}
 */
+int game_state = 1;
 
 int main(){
     char valorekonami = menuprincipale();
@@ -18,3 +19,4 @@ int main(){
     }
     return 0;
 }
+

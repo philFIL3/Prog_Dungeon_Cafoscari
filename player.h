@@ -5,20 +5,17 @@ struct player {
     int HP;
     int coins;
     const char*items[5];
-    int mission_complete;
+    int missions_completed;
 
 };
 
-void take_damage(int hp, int damage) {
-    hp-= damage;
-}
+typedef struct player Player;
 
-void collect_coins(int coins, int denaro){
-    coins += denaro;
-}
 
-void adventure(int mission_complete){
-    mission_complete++;
-}
+void take_damage(int hp, int damage);
+
+void collect_coins(int coins, int denaro);
+
+void adventure(int mission_complete);
 
 #endif
