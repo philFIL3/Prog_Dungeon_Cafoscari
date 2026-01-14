@@ -62,7 +62,7 @@ PER CANCELLARE UN NODO SI CAMBIANO SOLO I PUNTATORI, IN SEGUITO IL NODO VERRA' P
 */
 saveNode* deleteSave(saveNode* head, int i){ 
    if(head == NULL){
-    return NULL; //non c'e la head percio non c'e' il salvataggio
+    return NULL; //non c'e' la head perciò non c'e' il salvataggio
 
    } else if(i == 0){// itero con i uguale a 0 per poter eliminare la testa
    SaveNode*temp = head; //il nodo da eliminare

@@ -4,7 +4,4 @@
 char menuprincipale();
 char menuprincipaletrucchi();
 
-
-
-
 #endif

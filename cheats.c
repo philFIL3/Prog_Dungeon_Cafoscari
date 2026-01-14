@@ -4,7 +4,7 @@
 
 bool konami(char valorekonami){
     char verificatrucchi = valorekonami;
-    char codice[11]={'w','w','s','s','a','d','a','d','b','a',' ',};     // Creo il mio array di controllo
+    char codice[11]={'w','w','s','s','a','d','a','d','b','a',' '};     // Creo il mio array di controllo
     if(verificatrucchi == 'w'){                                         // Verifico se il primo valore inserito è uguale alla mia prima lettera dell'array
       for(int i=1; i<11; i++){  
       printf("Seleziona una delle opzioni del menu [1-2]:");            // Se è uguale inizio a iterare sull'array dalla seconda lettera fino all'undicesima, l'ultima          
@@ -18,3 +18,4 @@ bool konami(char valorekonami){
 } else return false;                                                    // Faccio l'else del primo if, quindi in caso il primo carattere inserito non sia uguale a 'w' ritorno subito falso
   return true;                                                          // Se fino ad adesso è andato tutto bene ritorno semplicemente true
 }
+
