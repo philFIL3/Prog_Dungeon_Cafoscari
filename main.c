@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include "cheats.h"
 #include "menu.h"
+#include <time.h>
+#include "combat.h"
+#include <stdlib.h>
 //gameloop
 //gestione del gioco
 
@@ -27,7 +30,14 @@ int main(){
     }else if(opzione == '3'){
         esecuzionetrucchi(/*metto il personaggio*/);
     }
-    
+
+    int risultato_scontro = scontro_SignoreOscuro();
+
+    if(risultato_scontro == 1){  //Vittoria dell'eroe
+        return 0;
+    }else{
+        menuprincipale(); //In caso di sconfitta si ritorna al menu principale
+    }
+
     return 0;
 }
-
