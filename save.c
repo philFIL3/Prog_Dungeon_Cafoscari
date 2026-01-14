@@ -1,7 +1,6 @@
 //ogni nodo un salvataggio, lista concatenata
 
 #include <stdio.h>
-#include <malloc.h>
 #include <stdlib.h>
 #include "player.h"
 
@@ -80,6 +79,7 @@ saveNode* deleteSave(saveNode* head, int i){
     current->next = temp->next; //il puntatore temp va al next
     free(temp); //elimino il nodo temp
    } 
+   return head;
    }
   //NEL MAIN SI DOVRA' USARLA QUINDI CON head = deleteSave(head, 0); // cancella la testa
 //head = deleteSave(head, 2); // cancella il terzo nodo
@@ -88,9 +88,49 @@ saveNode* deleteSave(saveNode* head, int i){
 
 //IL LOAD AL CONTRARIO CARICA I DATI DEL NODO
 
-saveNode* loadSave(Player player, saveNode*head, int i){
+int loadSave(Player* currentPlayer, saveNode*head, int counter){
+    //se la lista e' vuota
+    if(head == NULL || currentPlayer == NULL )
+    return 0;
+
+    saveNode* current = head;
+
+    //scorriamo l'indice 
+    for(int i = 0; i< counter && current != NULL; i ++){
+        current = current->next; //guardiamo al prossimo nodo
+    }
+    
+    //counter non compreso nella lista return 0
+    if (current == NULL)
+    {
+        return 0;
+    }
+    
+
+    //copiamo i dati 
+    *currentPlayer = current->data;
+
+    return 1; 
 }
 
 
-//load save sono le prossime funzioni da implementare
+//con updatesave aggiorniamo i dati di un file gia esistente, non si modificano i puntatori
+int  updateSave(saveNode*head, Player player, int counter){
+    
+    //troviamo il salvataggio
+    saveNode*current = head;
+
+    for (int i = 0; i< counter && current != NULL; i++)
+    {
+        current = current -> next;
+    }
+    //se la lista e' vuota ciccia
+    if (current == NULL){
+        return 0;
+    }
+   //copia dei dati nello stesso salvataggio
+    current -> data = player;
+    return 1;
+    
+}
 
