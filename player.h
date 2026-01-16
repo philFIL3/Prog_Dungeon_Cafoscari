@@ -6,7 +6,7 @@ struct player {
     int coins;
     const char*items[5];
     int missions_completed;
-
+    int stato_missioni[3];
 };
 
 
