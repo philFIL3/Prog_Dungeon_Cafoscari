@@ -37,6 +37,25 @@ char menuprincipaletrucchi(){
   scanf(" %c", &sceltatrucchi);
   return sceltatrucchi;
 }
+
+
+
 //menu del Villaggio
-//menu missionni
+char menuvillaggio(){
+  char sceltatrucchi;
+  printf("Intraprendi una missione\n\n");
+  printf("Riposati");
+  printf("Inventario\n");
+  printf("Salva la partita\n");
+  printf("Esci");
+
+  printf("Seleziona una delle opzioni del menu [1-5]\n");
+  return menuvillaggio;
+}
+
+//menu missioni
+
+
+
+
 //missioni selection menu

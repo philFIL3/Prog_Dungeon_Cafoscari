@@ -35,7 +35,9 @@ int main(){
 
     if(risultato_scontro == 1){  //Vittoria dell'eroe
         return 0;
-    }else{
+    }
+    else{
+
         menuprincipale(); //In caso di sconfitta si ritorna al menu principale
     }
 
