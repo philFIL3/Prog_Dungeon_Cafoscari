@@ -5,9 +5,22 @@
 #include "menu.h"
 #include <string.h>
 
-// MANCA DA IMPLEMENTARE IL FATTO COSA FARE CHE QUANDO UN EROE COMPLETA UNA STANZA, NE ESCE VINCITORE DI AVERE UN CONTATORE PER LE STANZE, E MANCA ANCHE IL FATTO DI
-// FORZARE LE STANZE IN CASO NON ESCANO QUELLE PER LE MISSIONI CHE SERVONO 
-// funzione per generare un numero da 1 a 6
+
+
+#define MAX_STANZE 10 //definisco le mie variabili per il dungeon controlller, e' sotto
+
+typedef enum {
+  PALUDE,
+  GROTTA,
+  MAGIONE
+} TipoMissione;
+
+typedef struct obMissione
+{
+    char* nomeBersaglio;
+    int obNecessari;
+    int obOttenuti;
+}obMissione;
 
 
 int dado(){
@@ -67,12 +80,10 @@ bool vincitore_palude_magione(Player* p, stanza nemici){        // ho creato una
 }
 
 // creo il primo generatore di stanze della palude putrescente
-void paludeputrescente(Player *p){
-    int tiro = dado();
-    stanza stanza_appoggio;    // creo una struct di appoggio per tutte le stanze in modo che sopravviva anche all'esterno degli if
-    stanza_appoggio.danno = 0;
-    stanza_appoggio.monete = 0;
-    stanza_appoggio.colpofatale = 0;
+bool paludeputrescente(Player *p, bool forzata, char**nome_stanza){
+    int tiro = forzata ? 6 : dado(); //con 6 genero forzatamente l'orco
+    stanza stanza_appoggio = {0};    // creo una struct di appoggio per tutte le stanze in modo che sopravviva anche all'esterno degli if
+    //con{0} azzero tutto; danno, monete, colpofatale
    
 if (tiro == 1) {
     stanza_appoggio.nome = "Cane Selvaggio";
@@ -106,28 +117,25 @@ else {
     stanza_appoggio.nome = "Generale Orco";
     stanza_appoggio.danno = 3;
     stanza_appoggio.monete = 12;
-    if (/*bisogna fare una funzione esterna o anche dentro l'if per controllare se il giocatore ha la spada dell'eroe oppure no*/){
-        stanza_appoggio.colpofatale = 6; // se non ha la spada dell'eroe
+    if (p->spada_eroe){ //check per vedere se il giocatore ha la spada
+        stanza_appoggio.colpofatale = 5; 
     }else{
-        stanza_appoggio.colpofatale = 5;
+        stanza_appoggio.colpofatale = 6; //se non ha la spada
     }
 }
-if (vincitore_palude_magione(p, stanza_appoggio)){ // Mi sto chiedendo se il giocatore è riuscito a sopravvivere al combattimento contro il nemico
-   // se ha vinto si torna al menù di missione
-}else{
-    menuprincipale(); // se la vita del giocatore è stato azzerata si torna al menù iniziale
-}
+
+//da sistemare
+*nome_stanza = stanza_appoggio.nome;
+    return vincitore_palude_magione(p, stanza_appoggio); // se la vita del giocatore è stato azzerata si torna al menù iniziale
+
 }
 
 
 // creo il generatore delle stanze di Magione Infestata
 
-void magione_infestata(Player *p){
-    int tiro = dado();
-    stanza stanza_appoggio;
-    stanza_appoggio.danno = 0;
-    stanza_appoggio.monete = 0;
-    stanza_appoggio.colpofatale = 0;  
+bool magione_infestata(Player *p, bool forzata, char **nome_stanza){
+    int tiro = forzata ? 6: dado(); //demone custode per la chiave
+    stanza stanza_appoggio = {0};  
 if (tiro == 1) {
     stanza_appoggio.nome = "Botola buia";
     stanza_appoggio.colpofatale = 0;
@@ -164,11 +172,17 @@ else {
     stanza_appoggio.danno = 6;
     stanza_appoggio.monete = 10;
 }
-if (vincitore_palude_magione(p, stanza_appoggio)){
-    // devo tornare al menù di missione se vince
-}else{
-    menuprincipale();
-}
+ *nome_stanza = stanza_appoggio.nome;
+
+    bool vinto = vincitore_palude_magione(p, stanza_appoggio);
+//
+    if (vinto && strcmp(stanza_appoggio.nome, "Demone Custode") == 0) {
+        p->chiave_castello = true;
+        printf("Hai ottenuto la Chiave del Castello del Signore Oscuro!\n\n");
+    }
+
+    return vinto;
+
 }
 
 
@@ -288,12 +302,9 @@ bool vincitore_grotta(Player *p, stanza nemici, int tiro){
 
 // creo il generatore di stanze di Grotta di Cristallo
 
-void grottadicristallo(Player* p){
-    int tiro = dado();
-    stanza stanza_appoggio;
-    stanza_appoggio.danno = 0;
-    stanza_appoggio.monete = 0;
-    stanza_appoggio.colpofatale = 0;
+bool grottadicristallo(Player* p, bool forzata, char **nome_stanza){
+    int tiro = forzata ? 6 : dado(); //Drago antico forzato
+    stanza stanza_appoggio = {0};
     if (tiro == 1) {
     stanza_appoggio.nome = "Stanza Vuota";
 }
@@ -319,11 +330,67 @@ else {
     stanza_appoggio.monete = 12;
     // bisogna mettere anche che ottiene la spada dell'eroe però non c'è ancora il codice
 }
-
-if (vincitore_grotta(p, stanza_appoggio, tiro)){ // Mi sto chiedendo se il giocatore è riuscito a sopravvivere al combattimento contro il nemico
+*nome_stanza = stanza_appoggio.nome;
+bool vinto = vincitore_grotta(p, stanza_appoggio, tiro); // Mi sto chiedendo se il giocatore è riuscito a sopravvivere al combattimento contro il nemico
    // se ha vinto si torna al menù di missione
-}else{
-    menuprincipale(); // se la vita del giocatore è stato azzerata si torna al menù iniziale
+if (vinto && strcmp(stanza_appoggio.nome, "Drago Antico")== 0){
+    p->spada_eroe = true;
+    printf("Hai ottenuto la Spada dell'Eroe\n");
 }
+    return vinto;
+
+}
+void dungeon_controller(Player* p, TipoMissione tipo){ //creo una funzione controller per i tre tipi di dungeon
+  int stanze = 0;
+  obMissione ob;
+
+switch(tipo){
+    case PALUDE:
+    ob.nomeBersaglio = "Generale Orco";
+    ob.obNecessari = 3;
+    break;
+    case MAGIONE:
+    ob.nomeBersaglio ="Demone Custode";
+    ob.obNecessari = 1;
+    break;
+    case GROTTA:
+    ob.nomeBersaglio = "Drago Antico";
+    ob.obNecessari = 1;
+    break;
+}
+ob.obOttenuti = 0;
+
+while (stanze < MAX_STANZE && ob.obOttenuti < ob.obNecessari)
+{
+    char * nome_stanza = NULL;
+    bool vinto = false;
+    bool forzata =
+    (MAX_STANZE - stanze) <= (ob.obNecessari - ob.obOttenuti);
+    printf("Stanza %d\n", stanze + 1);
+
+    switch (tipo)
+    {
+    case PALUDE:
+        vinto = paludeputrescente(p, forzata, &nome_stanza);
+        break;
+    case MAGIONE:
+        vinto = magione_infestata(p, forzata, &nome_stanza);
+        break;
+    case GROTTA:
+        vinto = grottadicristallo(p,forzata,&nome_stanza);
+        break;
+    }
+    if(!vinto){
+        menuprincipale();
+        return;
+    }
+    if(nome_stanza && strcmp(nome_stanza, ob.nomeBersaglio)== 0)
+    ob.obOttenuti++;
+
+   stanze++;
+}
+
+printf("Missione completata!\n");
+
 }
 
