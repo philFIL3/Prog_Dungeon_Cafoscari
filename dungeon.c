@@ -23,8 +23,24 @@ typedef struct obMissione
 }obMissione;
 
 
-int dado(){
-return 1 + rand() % 6;
+int dado(Player*p){
+    if (p->spada == 1 && p->spada_eroe == 0)
+    {
+       return 1 + rand() % 6;
+    }
+    else if (p->spada_eroe = 1)
+    {
+        return 2 + rand() % 6;
+    }
+    else return rand()% 6;
+
+}
+
+int dado_nemici(){
+    return rand() % 6;
+}
+int dado_nemici_forti(){
+    return rand()% 6 + rand()%6;
 }
 
 // creo la struct con le stanze
@@ -40,10 +56,10 @@ bool vincitore_palude_magione(Player* p, stanza nemici){        // ho creato una
     if(nemici.colpofatale == 0){       // faccio prima un controllo se è una trappola
         printf("L'eroe è entrato nella stanza %s ed è caduto in una trappola!\n\n", nemici.nome);
         if(nemici.danno == 0){
-        nemici.danno = dado();
+        nemici.danno = dado_nemici();
         printf("Viene lanciato un dado per stabilire l'attacco della trappola\n\n");
         printf("Il risultato: %d\n\n", nemici.danno);
-        p->HP -= nemici.danno;         // essendo una trappola l'eroe non guadagna monete, subisce solamente il danno
+        take_damage(p, nemici.danno);         // essendo una trappola l'eroe non guadagna monete, subisce solamente il danno
     }
         if(p->HP <= 0){ //sconfitta eroe
         printf("Sei stato sconfitto! :( \n\n");
@@ -54,7 +70,7 @@ bool vincitore_palude_magione(Player* p, stanza nemici){        // ho creato una
         printf("L'eroe incontra un/uno %s e inizia il combattimento\n\n", nemici.nome);
     while (verifica == 0){
         printf("Viene lanciato un dado per stabilire l'attacco dell'eroe\n\n");
-        int tiro = dado();   // lancio il dado 
+        int tiro = dado(p);   // lancio il dado 
         printf("Il risultato: %d.\n\n", tiro);
     if (tiro > nemici.colpofatale){ // controllo se riesco a battere il nemico
         p->coins += nemici.monete;  // aumento le monete
@@ -81,7 +97,7 @@ bool vincitore_palude_magione(Player* p, stanza nemici){        // ho creato una
 
 // creo il primo generatore di stanze della palude putrescente
 bool paludeputrescente(Player *p, bool forzata, char**nome_stanza){
-    int tiro = forzata ? 6 : dado(); //con 6 genero forzatamente l'orco
+    int tiro = forzata ? 6 : dado_nemici_forti(); //con 6 genero forzatamente l'orco
     stanza stanza_appoggio = {0};    // creo una struct di appoggio per tutte le stanze in modo che sopravviva anche all'esterno degli if
     //con{0} azzero tutto; danno, monete, colpofatale
    
@@ -134,7 +150,7 @@ else {
 // creo il generatore delle stanze di Magione Infestata
 
 bool magione_infestata(Player *p, bool forzata, char **nome_stanza){
-    int tiro = forzata ? 6: dado(); //demone custode per la chiave
+    int tiro = forzata ? 6: dado_nemici_forti(); //demone custode per la chiave
     stanza stanza_appoggio = {0};  
 if (tiro == 1) {
     stanza_appoggio.nome = "Botola buia";
@@ -264,7 +280,7 @@ bool vincitore_grotta(Player *p, stanza nemici, int tiro){
             }
         }else if(tiro == 5){
             printf("Viene lanciato un dado per stabilire il danno della trappola");
-            int danno = dado();
+            int danno = dado_nemici();
             printf("Il risultato : %d", danno);
             p->HP -= danno;
             printf("La trappola infligge %d danni all'eroe. L'eroe rimane con %d punti vita.\n\n", danno, p->HP);
@@ -278,7 +294,7 @@ bool vincitore_grotta(Player *p, stanza nemici, int tiro){
         int verifica = 0;
         while(verifica == 0){
         printf("Viene lanciato un dado per stabilire l'attacco dell'eroe\n\n");
-        int attacco = dado();
+        int attacco = dado(p);
         printf("Il risultato: %d\n\n", attacco);
         if(attacco>nemici.colpofatale){
             printf("Il drago antico viene sconfitto (Attacco = %d > Colpo fatale = %d)."
@@ -303,7 +319,7 @@ bool vincitore_grotta(Player *p, stanza nemici, int tiro){
 // creo il generatore di stanze di Grotta di Cristallo
 
 bool grottadicristallo(Player* p, bool forzata, char **nome_stanza){
-    int tiro = forzata ? 6 : dado(); //Drago antico forzato
+    int tiro = forzata ? 6 : dado_nemici_forti(); //Drago antico forzato
     stanza stanza_appoggio = {0};
     if (tiro == 1) {
     stanza_appoggio.nome = "Stanza Vuota";
@@ -340,7 +356,7 @@ if (vinto && strcmp(stanza_appoggio.nome, "Drago Antico")== 0){
     return vinto;
 
 }
-void dungeon_controller(Player* p, TipoMissione tipo){ //creo una funzione controller per i tre tipi di dungeon
+bool dungeon_controller(Player* p, TipoMissione tipo){ //creo una funzione controller per i tre tipi di dungeon
   int stanze = 0;
   obMissione ob;
 
@@ -382,7 +398,7 @@ while (stanze < MAX_STANZE && ob.obOttenuti < ob.obNecessari)
     }
     if(!vinto){
         menuprincipale();
-        return;
+        return false;
     }
     if(nome_stanza && strcmp(nome_stanza, ob.nomeBersaglio)== 0)
     ob.obOttenuti++;
@@ -391,6 +407,6 @@ while (stanze < MAX_STANZE && ob.obOttenuti < ob.obNecessari)
 }
 
 printf("Missione completata!\n");
-
+return true;
 }
 

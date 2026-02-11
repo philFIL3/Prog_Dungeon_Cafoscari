@@ -6,6 +6,8 @@
 #include <time.h>
 #include "combat.h"
 #include <stdlib.h>
+#include "save.h"
+#include "player.h"
 //gameloop
 //gestione del gioco
 
@@ -17,6 +19,8 @@ while(menuprincipaletrucchi()!=0){e facciamo altri tre if con le varie condizion
 */
 int main(){
     srand(time(NULL));
+    saveNode*head = NULL;
+    Player currentplayer;
     char opzione; //= menuprincipale();
     int runGame = 1;
     while (runGame)
@@ -38,12 +42,12 @@ int main(){
     switch (opzione)
     {
     case '1':
-        nuova_partita();
-        menuVillaggio();
+        nuova_partita(&head, &currentplayer);
+        menuVillaggio(&head, &currentplayer);
         break;
         case '2':
-        carica_partita();
-        menuVillaggio();
+        carica_partita(&head, &currentplayer);
+        menuVillaggio(&head, &currentplayer);
         break;
         case'3':
         esecuzionetrucchi();

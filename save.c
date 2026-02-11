@@ -15,7 +15,8 @@ typedef struct SaveNode{
 
 }SaveNode;
 typedef struct SaveNode saveNode;
-
+//questi due metodi seguenti sono divisi, potrei fare un unica funzione, in cui creo il primo o inserisco i prossimi pero' ho dei dubbi.
+//se ho tempo lo definisco
 //metodo per creare il primo salvataggio
 saveNode* createSave(Player player){  //creo il primo salvataggio, HEAD, il primo nodo
 
@@ -43,7 +44,11 @@ while (head!= NULL) //controlliamo se il nodo e' nullo
     i,
     head->data.HP,
     head->data.coins,
-    head->data.missions_completed);
+    head->data.chiave_castello,
+    head->data.spada,
+    head->data.spada_eroe,
+    head->data.armatura,
+    head->data.stato_missioni);
     head = head->next;
     i++;
 
@@ -72,7 +77,7 @@ saveNode* deleteSave(saveNode* head, int i){
    }
 
    saveNode* current = head; //eliminamo un nodo intero che non sia la testa
-   for (i = 0; i <i -1 && current->next != NULL; i++){ //controlliamo con un ciclo for se i va bene
+   for (i = 0; i < i - 1 && current->next != NULL; i++){ //controlliamo con un ciclo for se i va bene
     current = current -> next; // il current va al puntatore
    } 
    if (current->next != NULL) { //se il puntatore dopo il current non e' nullo
@@ -82,11 +87,6 @@ saveNode* deleteSave(saveNode* head, int i){
    } 
    return head;
    }
-  //NEL MAIN SI DOVRA' USARLA QUINDI CON head = deleteSave(head, 0); // cancella la testa
-//head = deleteSave(head, 2); // cancella il terzo nodo
-//PERCIO SI DOVRA CHIEDERE CHE SALVATAGGIO ELIMINARE AL PLAYER
-
-
 //IL LOAD AL CONTRARIO CARICA I DATI DEL NODO
 
 int loadSave(Player* currentPlayer, saveNode*head, int counter){
@@ -116,7 +116,7 @@ int loadSave(Player* currentPlayer, saveNode*head, int counter){
 
 
 //con updatesave aggiorniamo i dati di un file gia esistente, non si modificano i puntatori
-int  updateSave(saveNode*head, Player player, int counter){
+int updateSave(saveNode*head, Player player, int counter){
     
     //troviamo il salvataggio
     saveNode*current = head;

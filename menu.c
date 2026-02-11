@@ -43,6 +43,7 @@ char menuprincipaletrucchi(){
 //menu missioni
 void seleziona_missione(Player *p){
   printf("Menu di selezione missione:\n\n");
+  
  if(p->stato_missioni[0] == 0){
   printf("1. Palude Putrescente\n"); //se la missione è completata(1) non stampa nulla
  }
@@ -52,12 +53,13 @@ void seleziona_missione(Player *p){
  if(p->stato_missioni[2] == 0){
   printf("3. Grotta di Cristallo\n");
  }
-  if(p->missions_completed == 3){
+  if(p->missione_completata == 3){
   printf("4. Castello del Signore Oscuro\n"); //stampa questo solo quando tutte le missioni sono state completate
  }
 
  printf("\nSeleziona una delle opzioni del menu [1-3]:  ");
  int scelta_missione;
+
  scanf("%d", &scelta_missione);
  if(scelta_missione == 1){
  if(p->stato_missioni[0] == 0){   //controllo per verificare che non vengano selezionate missioni completate
@@ -83,7 +85,7 @@ void seleziona_missione(Player *p){
 
  }
  if(scelta_missione == 4){
- if(p->missions_completed == 3){
+ if(p->missione_completata == 3){
   //RICHIAMARE FUNZIONE PER AFFRONTARE LA MISSIONE FINALE
  }else{
   printf("\nNon hai ancora completato tutte le missioni!\n");
@@ -99,10 +101,14 @@ saveNode* nuovaParita(saveNode* head, Player* currentplayer){
 
   nuovo.coins = 0;
   nuovo.HP = 20;
-  nuovo.missions_completed = 0;
   nuovo.spada_eroe = 0;
+  nuovo.spada = 0;
+  nuovo.armatura = 0;
   nuovo.chiave_castello = 0;
-  nuovo.stato_missioni[3];
+  nuovo.missione_completata =0;
+  nuovo.stato_missioni[3] = 0;
+  
+  
  
   head = insertSave(head, nuovo); // cosi inserisco nella lista la head
 
@@ -124,4 +130,35 @@ void caricaPartita(saveNode * head, Player *currentplayer){
   printf("salvataggio completato\n");
 }
 
-void menuVillaggio(){}
+saveNode* menuVillaggio(saveNode*head, Player* p, int counter) {
+int scelta;
+ do {
+   printf("------IL VILLAGGIO------");
+   printf("1. intraprendi una missione\n");
+   printf("2. riposati\n");
+   printf("3. inventario\n");
+   printf("4. salva la partita\n");
+   printf("5. esci dal menu\n");
+
+  scanf("%d", &scelta);
+   switch (scelta)
+   {
+   case 1:
+    seleziona_missione(p);
+    case 2:
+    p->HP = 20;
+    printf("ti stanno ritornando le forze, HP riprestinati");
+    case 3:
+    stampa_inventario(p);
+    case 4:
+    updateSave(head,counter, *p);
+    break;
+    case 5:
+    printf("ritorna al menu\n");
+   default:
+   printf("scelta non valida\n");
+    break;
+   }
+  }
+   while (scelta !=5);
+}

@@ -12,6 +12,15 @@ int player_alive(Player*p){
 }
 
 void take_damage(Player* p, int damage) {
+    if (p->armatura)
+    {
+        damage--;
+    }
+    if (damage<0)
+    {
+        damage = 0;
+    }
+    
     p->HP -= damage;
 }
 
@@ -20,8 +29,9 @@ void collect_coins(Player* p, int denaro){
 }
 
 void adventure(Player* p){
-    p->missions_completed++;
+    p->missione_completata++;
 }
+
 
 /*In caso venga scelto l'opzione dei trucchi si potrà selezionare un salvataggio e modificare punti vita del personaggio,
 monete del personaggio, e sbloccare la missione finale*/
