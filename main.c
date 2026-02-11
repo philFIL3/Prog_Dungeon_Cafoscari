@@ -42,11 +42,11 @@ int main(){
     switch (opzione)
     {
     case '1':
-        nuovaPartita(&head, &currentplayer);
+        nuova_partita(&head, &currentplayer);
         menuVillaggio(&head, &currentplayer);
         break;
         case '2':
-        caricaPartita(&head, &currentplayer);
+        carica_partita(&head, &currentplayer);
         menuVillaggio(&head, &currentplayer);
         break;
         case'3':

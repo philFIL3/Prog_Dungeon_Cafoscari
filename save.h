@@ -14,8 +14,8 @@ saveNode* createSave(Player player);
 saveNode* insertSave(saveNode* head, Player player);
 saveNode* deleteSave(saveNode* head, int i);
 void printSave(saveNode* head);
-int loadSave(saveNode*head, int index, Player*p);
-int updateSave(saveNode*head,int index, Player p);
+int loadSave(Player*p, saveNode*head, int index);
+int updateSave(saveNode*head, Player p, int index);
 
 
 #endif

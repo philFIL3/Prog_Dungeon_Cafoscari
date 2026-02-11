@@ -1,5 +1,7 @@
 #ifndef MENU_H
 #define MENU_H
+#include "player.h"
+#include "save.h"
 
 char menuprincipale();
 char menuprincipaletrucchi();

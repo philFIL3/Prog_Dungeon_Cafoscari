@@ -40,7 +40,7 @@ void printSave(saveNode* head) {
     int i = 1;
 while (head!= NULL) //controlliamo se il nodo e' nullo
 {
-    printf("%d) %d HP, %d coins, %d missions completed\n"  ,
+    printf("%d) HP: %d, Coins: %d, Chiave del Castello:%d, Spada:%d, Spada dell'Eroe:%d, Armatura:%d, Missioni:%d\n",
     i,
     head->data.HP,
     head->data.coins,
