@@ -95,7 +95,7 @@ void seleziona_missione(Player *p){
 //missioni selection menu
 
 
-saveNode* nuovaParita(saveNode* head, Player* currentplayer){
+saveNode* nuova_partita(saveNode* head, Player* currentplayer){
  //creo struttura del nuovo player
   Player nuovo;
 
@@ -118,7 +118,7 @@ saveNode* nuovaParita(saveNode* head, Player* currentplayer){
   return head;
 }
 
-void caricaPartita(saveNode * head, Player *currentplayer){
+void carica_partita(saveNode * head, Player *currentplayer){
   printf("ecco i salvataggi:\n");
   printSave(head);
 

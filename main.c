@@ -6,8 +6,8 @@
 #include <time.h>
 #include "combat.h"
 #include <stdlib.h>
-#include "save.h"
 #include "player.h"
+#include "save.h"
 //gameloop
 //gestione del gioco
 
@@ -27,8 +27,8 @@ int main(){
     {
         opzione = menuprincipale();
         
-        if (konami_sequence_attivata()){
-            opzione = menuprincipaletrucchi();/* code */
+        if (konami(opzione)){
+            opzione = menuprincipaletrucchi();
     }
     
     int risultato_scontro = scontro_SignoreOscuro();
