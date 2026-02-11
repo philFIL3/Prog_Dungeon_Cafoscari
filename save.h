@@ -1,6 +1,6 @@
 #ifndef SAVE_H
 #define SAVE_H
-
+#include "player.h"
 typedef struct SaveNode{
     
     Player data; //struttura del player come dato
