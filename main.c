@@ -15,22 +15,18 @@ if(menuprincipale() == 2){fai questo}
 poi scriverei un ciclo while
 while(menuprincipaletrucchi()!=0){e facciamo altri tre if con le varie condizioni su cosa fanno}
 */
-int game_state = 1;
-
 int main(){
     srand(time(NULL));
-    char opzione= menuprincipale();
-    if(konami(opzione)){
-       opzione = menuprincipaletrucchi();
-    };
-    if (opzione == '1'){
-
-    }else if (opzione == '2'){
-
-    }else if(opzione == '3'){
-        esecuzionetrucchi(/*metto il personaggio*/);
+    char opzione; //= menuprincipale();
+    int runGame = 1;
+    while (runGame)
+    {
+        opzione = menuprincipale();
+        
+        if (konami_sequence_attivata()){
+            opzione = menuprincipaletrucchi();/* code */
     }
-
+    
     int risultato_scontro = scontro_SignoreOscuro();
 
     if(risultato_scontro == 1){  //Vittoria dell'eroe
@@ -38,6 +34,27 @@ int main(){
     }else{
         menuprincipale(); //In caso di sconfitta si ritorna al menu principale
         //DA VERIFICARE LA FUNZIONALITA' DEL MENU
+    }}
+    switch (opzione)
+    {
+    case '1':
+        nuova_partita();
+        menuVillaggio();
+        break;
+        case '2':
+        carica_partita();
+        menuVillaggio();
+        break;
+        case'3':
+        esecuzionetrucchi();
+        break;
+        case'4':
+        runGame = 0;
+        break;
+    
+    default:
+        printf("opzione invalida, scegli correttamente\n");
+
     }
 
     return 0;

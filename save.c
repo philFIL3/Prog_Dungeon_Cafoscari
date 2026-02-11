@@ -39,11 +39,10 @@ void printSave(saveNode* head) {
     int i = 1;
 while (head!= NULL) //controlliamo se il nodo e' nullo
 {
-    printf("%d) %d HP, %d coins, %d items, %d missions completed\n"  ,
+    printf("%d) %d HP, %d coins, %d missions completed\n"  ,
     i,
     head->data.HP,
     head->data.coins,
-    head->data.items,
     head->data.missions_completed);
     head = head->next;
     i++;
@@ -59,6 +58,8 @@ while (head!= NULL) //controlliamo se il nodo e' nullo
   3. non si elimina la testa ma un next.
 PER CANCELLARE UN NODO SI CAMBIANO SOLO I PUNTATORI, IN SEGUITO IL NODO VERRA' POI ELIMINATO, NON SERVE SVUOTARNE DAI DATI
 */
+
+//qua ho preso in esame il delete node che c'e' sul libro, stessa logica, solo che "elimino" il nodo non in base al valore ma all'indice che dovra' essere chiesto al player
 saveNode* deleteSave(saveNode* head, int i){ 
    if(head == NULL){
     return NULL; //non c'e' la head perciò non c'e' il salvataggio

@@ -8,7 +8,7 @@
 
 
 #define MAX_STANZE 10 //definisco le mie variabili per il dungeon controlller, e' sotto
-
+ //strutture dati  missioni e obbiettivi missioni
 typedef enum {
   PALUDE,
   GROTTA,
@@ -45,7 +45,7 @@ bool vincitore_palude_magione(Player* p, stanza nemici){        // ho creato una
         printf("Il risultato: %d\n\n", nemici.danno);
         p->HP -= nemici.danno;         // essendo una trappola l'eroe non guadagna monete, subisce solamente il danno
     }
-        if(p->HP <= 0){
+        if(p->HP <= 0){ //sconfitta eroe
         printf("Sei stato sconfitto! :( \n\n");
         return false;
         }
@@ -360,7 +360,7 @@ switch(tipo){
 }
 ob.obOttenuti = 0;
 
-while (stanze < MAX_STANZE && ob.obOttenuti < ob.obNecessari)
+while (stanze < MAX_STANZE && ob.obOttenuti < ob.obNecessari) 
 {
     char * nome_stanza = NULL;
     bool vinto = false;
