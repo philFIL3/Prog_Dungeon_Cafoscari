@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include "player.h"
 #include "save.h"
+#include "combat.h"
 //menu iniziale di gioco
 
 // funzione per controllare se viene inserito uno dei caratteri di konami
@@ -43,7 +44,7 @@ char menuprincipaletrucchi(){
 //menu missioni
 void seleziona_missione(Player *p){
   printf("Menu di selezione missione:\n\n");
-  
+
  if(p->stato_missioni[0] == 0){
   printf("1. Palude Putrescente\n"); //se la missione è completata(1) non stampa nulla
  }
@@ -107,9 +108,9 @@ saveNode* nuova_partita(saveNode* head, Player* currentplayer){
   nuovo.chiave_castello = 0;
   nuovo.missione_completata =0;
   nuovo.stato_missioni[3] = 0;
-  
-  
- 
+
+
+
   head = insertSave(head, nuovo); // cosi inserisco nella lista la head
 
   *currentplayer = nuovo; //aggiorno i puntatori del current con il nuovo
@@ -125,7 +126,7 @@ void carica_partita(saveNode * head, Player *currentplayer){
   int scelta;
   printf("quale dei salvataggi vorresti caricare?\n");
   scanf("%d", &scelta);
-  
+
   loadSave(head, scelta - 1, currentplayer); //perche uso indice con base 0
   printf("salvataggio completato\n");
 }
