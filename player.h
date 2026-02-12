@@ -2,7 +2,8 @@
 #define PLAYER_H
 #include <stdbool.h>
 
-struct saveNode;
+ typedef struct SaveNode saveNode;
+
 typedef struct {
     int HP;
     int coins;
@@ -17,5 +18,7 @@ typedef struct {
 void take_damage(Player* p, int damage);
 void collect_coins(Player* p, int denaro);
 void adventure(Player* p);
-void esecuzionetrucchi(Player *p,struct saveNode* head);
+void esecuzionetrucchi(Player *p,saveNode* head);
+void stampa_inventario(Player* p);
+
 #endif

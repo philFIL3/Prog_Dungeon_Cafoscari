@@ -40,7 +40,7 @@ void esecuzionetrucchi(Player *p, saveNode* head){
     printf("Seleziona un salvataggio");
     scanf("%d", &scelta );
 
-    if (!loadSave(head ,p, scelta)){
+    if (!loadSave(head,scelta, p)){
         printf("salvataggio non valido\n");
         return; 
     }

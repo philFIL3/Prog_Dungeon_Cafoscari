@@ -3,18 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "player.h"
+#include "save.h"
 
 
-//creaiamo la lista
 
-
-typedef struct SaveNode{
-    
-    Player data; //struttura del player come dato
-    struct SaveNode *next; //puntatore per il nuovo salvataggio
-
-}SaveNode;
-typedef struct SaveNode saveNode;
 //questi due metodi seguenti sono divisi, potrei fare un unica funzione, in cui creo il primo o inserisco i prossimi pero' ho dei dubbi.
 //se ho tempo lo definisco
 //metodo per creare il primo salvataggio
@@ -89,15 +81,15 @@ saveNode* deleteSave(saveNode* head, int i){
    }
 //IL LOAD AL CONTRARIO CARICA I DATI DEL NODO
 
-int loadSave(Player* currentPlayer, saveNode*head, int counter){
+int loadSave(saveNode* head, int index, Player* p){
     //se la lista e' vuota
-    if(head == NULL || currentPlayer == NULL )
+    if(head == NULL || p == NULL )
     return 0;
 
     saveNode* current = head;
 
     //scorriamo l'indice 
-    for(int i = 0; i< counter && current != NULL; i ++){
+    for(int i = 0; i< index && current != NULL; i ++){
         current = current->next; //guardiamo al prossimo nodo
     }
     
@@ -109,7 +101,7 @@ int loadSave(Player* currentPlayer, saveNode*head, int counter){
     
 
     //copiamo i dati 
-    *currentPlayer = current->data;
+    *p = current->data;
 
     return 1; 
 }

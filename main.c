@@ -6,8 +6,8 @@
 #include <time.h>
 #include "combat.h"
 #include <stdlib.h>
-#include "player.h"
 #include "save.h"
+#include "player.h"
 //gameloop
 //gestione del gioco
 
@@ -23,12 +23,13 @@ int main(){
     Player currentplayer;
     char opzione; //= menuprincipale();
     int runGame = 1;
+    int counter = 0;
     while (runGame)
     {
         opzione = menuprincipale();
         
         if (konami(opzione)){
-            opzione = menuprincipaletrucchi();
+            opzione = menuprincipaletrucchi();/* code */
     }
     
     int risultato_scontro = scontro_SignoreOscuro();
@@ -38,19 +39,23 @@ int main(){
     }else{
         menuprincipale(); //In caso di sconfitta si ritorna al menu principale
         //DA VERIFICARE LA FUNZIONALITA' DEL MENU
-    }}
+    }
     switch (opzione)
     {
     case '1':
-        nuova_partita(&head, &currentplayer);
-        menuVillaggio(&head, &currentplayer);
+        head = nuova_partita(head, &currentplayer);
+        head = menuVillaggio(head, &currentplayer, counter);
+  
         break;
         case '2':
-        carica_partita(&head, &currentplayer);
-        menuVillaggio(&head, &currentplayer);
+        carica_partita(head, &currentplayer);
+        head = menuVillaggio(head, &currentplayer, counter);
+
         break;
         case'3':
-        esecuzionetrucchi();
+        esecuzionetrucchi(&currentplayer, head);
+
+        
         break;
         case'4':
         runGame = 0;
@@ -60,6 +65,7 @@ int main(){
         printf("opzione invalida, scegli correttamente\n");
 
     }
+}
 
     return 0;
 }

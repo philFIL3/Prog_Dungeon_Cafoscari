@@ -126,7 +126,7 @@ void carica_partita(saveNode * head, Player *currentplayer){
   printf("quale dei salvataggi vorresti caricare?\n");
   scanf("%d", &scelta);
   
-  loadSave(currentplayer, head, scelta - 1); //perche uso indice con base 0
+  loadSave(head, scelta - 1, currentplayer); //perche uso indice con base 0
   printf("salvataggio completato\n");
 }
 
@@ -145,13 +145,16 @@ int scelta;
    {
    case 1:
     seleziona_missione(p);
+    break;
     case 2:
     p->HP = 20;
     printf("ti stanno ritornando le forze, HP riprestinati");
+    break;
     case 3:
     stampa_inventario(p);
+    break;
     case 4:
-    updateSave(head,counter, *p);
+    updateSave(head,*p, counter);
     break;
     case 5:
     printf("ritorna al menu\n");
@@ -161,4 +164,5 @@ int scelta;
    }
   }
    while (scelta !=5);
+   return head;
 }
