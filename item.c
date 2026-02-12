@@ -21,11 +21,11 @@ int applica_difesa(Player p, int danno_nemico) {
     return danno_nemico;
 }
 
-void stampa_inventario(Player p) {
+void stampa_inventario(Player* p) {
     printf("\n--- STATO EROE ---\n");
-    printf("PV: %d/%d | MONETE: %d\n", p.HP,20, p.coins);
-    printf("ARMA: %s\n", p.spada_eroe ? "Spada dell'Eroe (+2)" : (p.spada ? "Spada (+1)" : "Pugnale"));
-    printf("DIFESA: %s\n", p.armatura ? "Armatura (-1)" : "Nessuna");
-    if (p.chiave_castello) printf("OGGETTI: Chiave del Castello\n");
+    printf("PV: %d/%d | MONETE: %d\n", p->HP, 20, p->coins);
+    printf("ARMA: %s\n", p->spada_eroe ? "Spada dell'Eroe (+2)" : (p->spada ? "Spada (+1)" : "Pugnale"));
+    printf("DIFESA: %s\n", p->armatura ? "Armatura (-1)" : "Nessuna");
+    if (p->chiave_castello) printf("OGGETTI: Chiave del Castello\n");
     printf("------------------\n");
 }
