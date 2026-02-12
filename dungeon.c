@@ -1,19 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include "player.h"
 #include "menu.h"
-#include <string.h>
+#include "dungeon.h"
+
 
 
 
 #define MAX_STANZE 10 //definisco le mie variabili per il dungeon controlller, e' sotto
  //strutture dati  missioni e obbiettivi missioni
-typedef enum {
-  PALUDE,
-  GROTTA,
-  MAGIONE
-} TipoMissione;
 
 typedef struct obMissione
 {
@@ -28,7 +25,7 @@ int dado(Player*p){
     {
        return 1 + rand() % 6;
     }
-    else if (p->spada_eroe = 1)
+    else if (p->spada_eroe == 1)
     {
         return 2 + rand() % 6;
     }
@@ -78,7 +75,7 @@ bool vincitore_palude_magione(Player* p, stanza nemici){        // ho creato una
         printf("Il/lo %s viene sconfitto (Attacco=%d > Colpo fatale=%d). L'eroe rimane con %d punti vita, e riceve %d monete.\n\n",nemici.nome, tiro, nemici.colpofatale, p->HP, nemici.monete);
     }else{    
         printf("Attacco non sufficiente per sconfiggere il/lo %s (Attacco=%d < Colpo fatale=%d)\n\n", nemici.nome, tiro, nemici.colpofatale);
-        p->HP -= nemici.danno;
+         take_damage(p, nemici.danno);
        
         if(p->HP <= 0){     // controllo se i punti vita sono stati azzerati
             printf("Sei stato sconfitto! :( \n\n");
@@ -264,7 +261,7 @@ bool vincitore_grotta(Player *p, stanza nemici, int tiro){
     }else if(tiro == 2 || tiro == 3 || tiro == 4 || tiro == 5){   // controllo se l'eroe cadrà in trappola
         printf("L'eroe è entrato nella stanza %s ed è caduto in una trappola!\n\n", nemici.nome);
         if(tiro == 2){
-            p->HP -= nemici.danno;
+           take_damage(p, nemici.danno);
             printf("La trappola infligge %d danni all'eroe. L'eroe rimane con %d punti vita.\n\n", nemici.danno, p->HP);
         }else if(tiro == 3){
             p->coins -= nemici.monete;
@@ -276,13 +273,13 @@ bool vincitore_grotta(Player *p, stanza nemici, int tiro){
                 p->coins += nemici.monete;
             }else{
                 printf("Sfortunatamente è uscito croce. L'eroe dovrà subire i danni");
-                p->HP -= nemici.danno;
+                take_damage(p, nemici.danno);
             }
         }else if(tiro == 5){
             printf("Viene lanciato un dado per stabilire il danno della trappola");
             int danno = dado_nemici();
             printf("Il risultato : %d", danno);
-            p->HP -= danno;
+            take_damage(p, nemici.danno);
             printf("La trappola infligge %d danni all'eroe. L'eroe rimane con %d punti vita.\n\n", danno, p->HP);
         }
           if(p->HP <= 0){
@@ -397,13 +394,20 @@ while (stanze < MAX_STANZE && ob.obOttenuti < ob.obNecessari)
         break;
     }
     if(!vinto){
-        menuprincipale();
+        printf("\nPremi INVIO per tornare al menu principale ");
+        while (getchar() != '\n');
+        getchar();
         return false;
     }
     if(nome_stanza && strcmp(nome_stanza, ob.nomeBersaglio)== 0)
     ob.obOttenuti++;
 
    stanze++;
+   if (ob.obOttenuti < ob.obNecessari && stanze < MAX_STANZE) {
+        printf("\nStanza completata! Premi INVIO per passare alla prossima ");
+        while (getchar() != '\n');
+        getchar();
+    }
 }
 
 printf("Missione completata!\n");

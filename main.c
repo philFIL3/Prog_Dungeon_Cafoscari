@@ -29,26 +29,19 @@ int main(){
         opzione = menuprincipale();
         
         if (konami(opzione)){
-            opzione = menuprincipaletrucchi();/* code */
+            opzione = menuprincipaletrucchi();
     }
     
-    int risultato_scontro = scontro_SignoreOscuro();
-
-    if(risultato_scontro == 1){  //Vittoria dell'eroe
-        return 0;
-    }else{
-        menuprincipale(); //In caso di sconfitta si ritorna al menu principale
-        //DA VERIFICARE LA FUNZIONALITA' DEL MENU
-    }
     switch (opzione)
     {
     case '1':
         head = nuova_partita(head, &currentplayer);
+        counter = 0;
         head = menuVillaggio(head, &currentplayer, counter);
   
         break;
         case '2':
-        carica_partita(head, &currentplayer);
+        counter = carica_partita(head, &currentplayer);
         head = menuVillaggio(head, &currentplayer, counter);
 
         break;
@@ -63,7 +56,7 @@ int main(){
     
     default:
         printf("opzione invalida, scegli correttamente\n");
-
+    break;
     }
 }
 

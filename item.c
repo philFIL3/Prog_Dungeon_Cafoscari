@@ -4,7 +4,7 @@
 #include "item.h"
 #include "player.h"
 
-int dado(){
+int static dado(){
 return 1 + rand() % 6;
 }
 

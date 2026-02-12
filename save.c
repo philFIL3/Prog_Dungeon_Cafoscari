@@ -40,7 +40,7 @@ while (head!= NULL) //controlliamo se il nodo e' nullo
     head->data.spada,
     head->data.spada_eroe,
     head->data.armatura,
-    head->data.stato_missioni);
+    head->data.missione_completata);
     head = head->next;
     i++;
 
