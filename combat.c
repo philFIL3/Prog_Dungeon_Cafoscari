@@ -3,7 +3,7 @@
 #include <time.h>
 #include "combat.h"
 
-int scontro_SignoreOscuro(){
+int scontro_SignoreOscuro(Player* p){
 
 int round_corrente = 0;
 int round_eroe_vinti = 0;
@@ -41,6 +41,7 @@ while(round_eroe_vinti < 3 && round_signoreOscuro_vinti < 3){
     return 1;
   }else{
     printf("\n\n~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~\n        GAME OVER\n~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~\n");
+    p->HP = 0;
     return 0;
   }
 }

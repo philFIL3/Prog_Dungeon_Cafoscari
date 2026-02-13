@@ -60,7 +60,8 @@ void seleziona_missione(Player *p){
   printf("3. Grotta di Cristallo\n");
  }
  if (p->missione_completata == 3) {
-  printf("\nSeleziona una delle opzioni del menu [1-4]: ");
+  printf("\n Hai accesso allo scontro contro Il Signore Oscuro \n");
+  printf("\n Scrivi 4 se vuoi combattere: ");
  } else {
   printf("\nSeleziona una delle opzioni del menu [1-3]: ");
  }
@@ -100,7 +101,7 @@ void seleziona_missione(Player *p){
  }
  if(scelta_missione == 4){
  if(p->missione_completata == 3){
-  if(scontro_SignoreOscuro() == 1){
+  if(scontro_SignoreOscuro(p) == 1){
   exit(0);
  }
  }else{

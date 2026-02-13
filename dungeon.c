@@ -23,23 +23,21 @@ typedef struct obMissione
 
 
 int dado(Player*p){
-    if (p->spada == 1 && p->spada_eroe == 0)
-    {
-       return 1 + rand() % 6;
+    int base = rand() % 6 + 1;
+    if (p->spada_eroe == 1) {
+        return base + 2; 
     }
-    else if (p->spada_eroe == 1)
-    {
-        return 2 + rand() % 6;
+    else if (p->spada == 1) {
+        return base + 1; 
     }
-    else return rand()% 6;
-
+    else return base;
 }
 
 int dado_nemici(){
-    return rand() % 6;
+    return rand() % 6 + 1;
 }
-int dado_nemici_forti(){
-    return rand()% 6 + rand()%6;
+int dado_stanza(){
+    return rand()% 6 + 1;
 }
 
 // creo la struct con le stanze
@@ -58,8 +56,8 @@ bool vincitore_palude_magione(Player* p, stanza nemici){        // ho creato una
         nemici.danno = dado_nemici();
         printf("Viene lanciato un dado per stabilire l'attacco della trappola\n\n");
         printf("Il risultato: %d\n\n", nemici.danno);
-        take_damage(p, nemici.danno);         // essendo una trappola l'eroe non guadagna monete, subisce solamente il danno
     }
+        take_damage(p, nemici.danno);         // essendo una trappola l'eroe non guadagna monete, subisce solamente il danno
         if(p->HP <= 0){ //sconfitta eroe
         printf("Sei stato sconfitto! :( \n\n");
         return false;
@@ -77,7 +75,7 @@ bool vincitore_palude_magione(Player* p, stanza nemici){        // ho creato una
         printf("Il/lo %s viene sconfitto (Attacco=%d > Colpo fatale=%d). L'eroe rimane con %d punti vita, e riceve %d monete.\n\n",nemici.nome, tiro, nemici.colpofatale, p->HP, nemici.monete);
     }else{
         printf("Attacco non sufficiente per sconfiggere il/lo %s (Attacco=%d < Colpo fatale=%d)\n\n", nemici.nome, tiro, nemici.colpofatale);
-         take_damage(p, tiro);
+         take_damage(p, nemici.danno);
 
         if(p->HP <= 0){     // controllo se i punti vita sono stati azzerati
             printf("Sei stato sconfitto! :( \n\n");
@@ -92,7 +90,7 @@ bool vincitore_palude_magione(Player* p, stanza nemici){        // ho creato una
 
 // creo il primo generatore di stanze della palude putrescente
 bool paludeputrescente(Player *p, bool forzata, char**nome_stanza){
-    int tiro = forzata ? 6 : dado_nemici_forti(); //con 6 genero forzatamente l'orco
+    int tiro = forzata ? 6 : dado_stanza(); //con 6 genero forzatamente l'orco
     stanza stanza_appoggio = {0};    // creo una struct di appoggio per tutte le stanze in modo che sopravviva anche all'esterno degli if
     //con{0} azzero tutto; danno, monete, colpofatale
 
@@ -144,7 +142,7 @@ else {
 // creo il generatore delle stanze di Magione Infestata
 
 bool magione_infestata(Player *p, bool forzata, char **nome_stanza){
-    int tiro = forzata ? 6: dado_nemici_forti(); //demone custode per la chiave
+    int tiro = forzata ? 6: dado_stanza(); //demone custode per la chiave
     stanza stanza_appoggio = {0};
 if (tiro == 1) {
     stanza_appoggio.nome = "Botola buia";
@@ -235,14 +233,14 @@ void danno_opzionale(Player *p){    // creo funzione che mi dice se l'utente è 
                 printf("Complimenti, risposta corretta! Il danno è pari a 0");
             }else{
                 printf("Risposta sbagliata! Al tuo eroe gli verranno tolti 10 punti vita.");
-                p->HP -= 10;
+                take_damage(p, 10);
             }
         }else if(!strcmp(opzione, "No")){   // nel caso l'utente inserisca no
              if(!contenuto){
                 printf("Complimenti, risposta corretta! Il danno è pari a 0");
             }else{
                 printf("Risposta sbagliata! Al tuo eroe gli verranno tolti 10 punti vita.");
-                p->HP -= 10;
+                take_damage(p, 10);
             }
         }
     }else{
@@ -262,6 +260,9 @@ bool vincitore_grotta(Player *p, stanza nemici, int tiro){
             printf("La trappola infligge %d danni all'eroe. L'eroe rimane con %d punti vita.\n\n", nemici.danno, p->HP);
         }else if(tiro == 3){
             p->coins -= nemici.monete;
+            if (p->coins < 0) {
+            p->coins = 0;
+            }
             printf("La trappola fa perdere all'eroe %d monete\n\n", nemici.monete);
         }else if(tiro == 4){
             printf("Viene lanciato una moneta, se esce testa ottieni %d monete, altrimenti subisci %d danno.\n\n", nemici.monete, nemici.danno);
@@ -273,9 +274,9 @@ bool vincitore_grotta(Player *p, stanza nemici, int tiro){
                 take_damage(p, nemici.danno);
             }
         }else if(tiro == 5){
-            printf("Viene lanciato un dado per stabilire il danno della trappola");
+            printf("Viene lanciato un dado per stabilire il danno della trappola\n\n");
             int danno = dado_nemici();
-            printf("Il risultato : %d", danno);
+            printf("Il risultato : %d\n\n", danno);
             take_damage(p, danno);
             printf("La trappola infligge %d danni all'eroe. L'eroe rimane con %d punti vita.\n\n", danno, p->HP);
         }
@@ -295,10 +296,9 @@ bool vincitore_grotta(Player *p, stanza nemici, int tiro){
                     "L'eroe rimane con %d punti vita, e oltre a ricevere 12 monete,"
                     "riceve anche la Spada dell'eroe.\n\n", attacco, nemici.colpofatale, p->HP);
             p->coins += nemici.monete;
-            // bisogna scrivere qualcosa in modo che ottenga anche la spada dell'eroe IMPORTANTE!!
             verifica = 1;
         }else{
-            printf("Attacco non sufficiente per sconfiggere il drago antico (Attacco = %d < Colpo Fatale = 2)", attacco);
+            printf("Attacco non sufficiente per sconfiggere il drago antico (Attacco = %d < Colpo Fatale = 5)", attacco);
             danno_opzionale(p);
             if(p->HP <= 0){
             printf("Essendo che i punti vita dell'eroe sono 0 o negativi, Sei Stato Sconfitto! :( \n\n");
@@ -313,7 +313,7 @@ bool vincitore_grotta(Player *p, stanza nemici, int tiro){
 // creo il generatore di stanze di Grotta di Cristallo
 
 bool grottadicristallo(Player* p, bool forzata, char **nome_stanza){
-    int tiro = forzata ? 6 : dado_nemici_forti(); //Drago antico forzato
+    int tiro = forzata ? 6 : dado_stanza(); //Drago antico forzato
     stanza stanza_appoggio = {0};
     if (tiro == 1) {
     stanza_appoggio.nome = "Stanza Vuota";
@@ -338,7 +338,6 @@ else {
     stanza_appoggio.nome = "Drago Antico";
     stanza_appoggio.colpofatale = 5;
     stanza_appoggio.monete = 12;
-    // bisogna mettere anche che ottiene la spada dell'eroe però non c'è ancora il codice
 }
 *nome_stanza = stanza_appoggio.nome;
 bool vinto = vincitore_grotta(p, stanza_appoggio, tiro); // Mi sto chiedendo se il giocatore è riuscito a sopravvivere al combattimento contro il nemico

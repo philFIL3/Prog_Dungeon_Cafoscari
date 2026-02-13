@@ -7,8 +7,7 @@
 
 
 
-//questi due metodi seguenti sono divisi, potrei fare un unica funzione, in cui creo il primo o inserisco i prossimi pero' ho dei dubbi.
-//se ho tempo lo definisco
+
 //metodo per creare il primo salvataggio
 saveNode* createSave(Player player){  //creo il primo salvataggio, HEAD, il primo nodo
 
@@ -69,7 +68,7 @@ saveNode* deleteSave(saveNode* head, int i){
    }
 
    saveNode* current = head; //eliminamo un nodo intero che non sia la testa
-   for (i = 0; i < i - 1 && current->next != NULL; i++){ //controlliamo con un ciclo for se i va bene
+   for (int j = 0; j < i - 1 && current->next != NULL; i++){ //controlliamo con un ciclo for se i va bene
     current = current -> next; // il current va al puntatore
    } 
    if (current->next != NULL) { //se il puntatore dopo il current non e' nullo
@@ -117,7 +116,7 @@ int updateSave(saveNode*head, Player player, int counter){
     {
         current = current -> next;
     }
-    //se la lista e' vuota ciccia
+    //se la lista e' vuota
     if (current == NULL){
         return 0;
     }

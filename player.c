@@ -40,19 +40,21 @@ void esecuzionetrucchi(Player *p, saveNode* head){
     printf("Seleziona un salvataggio");
     scanf("%d", &scelta );
 
-    if (!loadSave(head,scelta, p)){
+    if (!loadSave(head,scelta-1, p)){
         printf("salvataggio non valido\n");
         return; 
     }
-    // devi gestirtela tu un po' qua filippo perchè non so come hai fatto i salvataggi perciò non riesco a farlo io
     printf("Inserisci la nuova quantita' dei punti vita");
     scanf ("%d", &(p->HP));
     printf("Inserisci la nuova quantita' delle monete");
     scanf("%d", &(p->coins));
 
-//qua serve la condizione dello sblocco della missione finale che non mi ricordo
-    //updateSave(head,scelta, *p);
+    p->missione_completata = 3;
+    p->stato_missioni[0] = 1;
+    p->stato_missioni[1] = 1;
+    p->stato_missioni[2] = 1;
+    updateSave(head, *p, scelta-1);
 
     printf("trucchi funzionanti correttamente\n");
-    // carico direttamente la funzione per andare nella missione
+
 }
