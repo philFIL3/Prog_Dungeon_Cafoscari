@@ -5,6 +5,8 @@
 #include "player.h"
 #include "menu.h"
 #include "dungeon.h"
+#include "shop.h"
+#include "item.h"
 
 
 
@@ -63,20 +65,20 @@ bool vincitore_palude_magione(Player* p, stanza nemici){        // ho creato una
         return false;
         }
         printf("La trappola infligge %d danni all'eroe. L'eroe rimane con %d punti vita\n\n", nemici.danno, p->HP);
-    }else{ 
+    }else{
         printf("L'eroe incontra un/uno %s e inizia il combattimento\n\n", nemici.nome);
     while (verifica == 0){
         printf("Viene lanciato un dado per stabilire l'attacco dell'eroe\n\n");
-        int tiro = dado(p);   // lancio il dado 
+        int tiro = dado(p);   // lancio il dado
         printf("Il risultato: %d.\n\n", tiro);
     if (tiro > nemici.colpofatale){ // controllo se riesco a battere il nemico
         p->coins += nemici.monete;  // aumento le monete
         verifica = 1;               // pongo verifica = 1 così posso uscire dal ciclo while
         printf("Il/lo %s viene sconfitto (Attacco=%d > Colpo fatale=%d). L'eroe rimane con %d punti vita, e riceve %d monete.\n\n",nemici.nome, tiro, nemici.colpofatale, p->HP, nemici.monete);
-    }else{    
+    }else{
         printf("Attacco non sufficiente per sconfiggere il/lo %s (Attacco=%d < Colpo fatale=%d)\n\n", nemici.nome, tiro, nemici.colpofatale);
          take_damage(p, nemici.danno);
-       
+
         if(p->HP <= 0){     // controllo se i punti vita sono stati azzerati
             printf("Sei stato sconfitto! :( \n\n");
             return false;
@@ -84,12 +86,12 @@ bool vincitore_palude_magione(Player* p, stanza nemici){        // ho creato una
          printf("Il/lo %s infligge %d danni all'eroe. L'eroe rimane con %d punti vita. \n\n", nemici.nome, nemici.danno, p->HP );
     }
 }   // nel caso di aver sconfitto il demone custode della magione infestata bisogna ottenere anche
-    // la chiave del Castello del signore oscuro quindi facciamo un if di controllo con magari visto 
-    // che siamo in questo caso l'unica stanza che ha 10 monete è demone custode possiamo appunto mettere 
-    // un if di controllo con le monete, se sono 10, otteniamo la chiave del castello del signore oscuro perchè se 
+    // la chiave del Castello del signore oscuro quindi facciamo un if di controllo con magari visto
+    // che siamo in questo caso l'unica stanza che ha 10 monete è demone custode possiamo appunto mettere
+    // un if di controllo con le monete, se sono 10, otteniamo la chiave del castello del signore oscuro perchè se
     // siamo arrivati fino a questa riga sicuramente lo abbiamo sconfitto
-    } 
-    return true;  
+    }
+    return true;
 }
 
 // creo il primo generatore di stanze della palude putrescente
@@ -97,7 +99,7 @@ bool paludeputrescente(Player *p, bool forzata, char**nome_stanza){
     int tiro = forzata ? 6 : dado_nemici_forti(); //con 6 genero forzatamente l'orco
     stanza stanza_appoggio = {0};    // creo una struct di appoggio per tutte le stanze in modo che sopravviva anche all'esterno degli if
     //con{0} azzero tutto; danno, monete, colpofatale
-   
+
 if (tiro == 1) {
     stanza_appoggio.nome = "Cane Selvaggio";
     stanza_appoggio.colpofatale = 2;
@@ -131,7 +133,7 @@ else {
     stanza_appoggio.danno = 3;
     stanza_appoggio.monete = 12;
     if (p->spada_eroe){ //check per vedere se il giocatore ha la spada
-        stanza_appoggio.colpofatale = 5; 
+        stanza_appoggio.colpofatale = 5;
     }else{
         stanza_appoggio.colpofatale = 6; //se non ha la spada
     }
@@ -148,7 +150,7 @@ else {
 
 bool magione_infestata(Player *p, bool forzata, char **nome_stanza){
     int tiro = forzata ? 6: dado_nemici_forti(); //demone custode per la chiave
-    stanza stanza_appoggio = {0};  
+    stanza stanza_appoggio = {0};
 if (tiro == 1) {
     stanza_appoggio.nome = "Botola buia";
     stanza_appoggio.colpofatale = 0;
@@ -213,7 +215,7 @@ int padovansequenze(int n){     // funzione ricorsiva della sequenza di Padovan
 
 bool verificanumerogenerato(int x){     // verifico se il numero generato fa parte della sequenza di Padovan oppure no
     int verifica = 0;
-    for(int i = 0; verifica < x; i++){  // faccio un ciclo for che parte da 0 e va fino a al numero generato casualmente 
+    for(int i = 0; verifica < x; i++){  // faccio un ciclo for che parte da 0 e va fino a al numero generato casualmente
         verifica = padovansequenze(i);  // metto ogni risultato della funzione padovansequenze nella variabile verifica, quindi nel caso di i = 0 avrò in verifica 1
         if(verifica == x) return true;  // qua faccio il vero controllo se il numero generato fa veramente parte della sequenza
     }
@@ -233,7 +235,7 @@ void danno_opzionale(Player *p){    // creo funzione che mi dice se l'utente è 
     scanf("%s", opzione);
     if(strcmp(opzione, "Si") == 0 || strcmp(opzione, "No") == 0){    // faccio un controllo che l'utente abbia veramente scritto "Si" oppure "No"
         verifica = 1;
-        if(!strcmp(opzione, "Si")){         // nel caso l'utente inserisca Si 
+        if(!strcmp(opzione, "Si")){         // nel caso l'utente inserisca Si
             if(contenuto){                  // qua controllo se il numero generato fa parte o no della sequenza
                 printf("Complimenti, risposta corretta! Il danno è pari a 0");
             }else{
@@ -295,7 +297,7 @@ bool vincitore_grotta(Player *p, stanza nemici, int tiro){
         printf("Il risultato: %d\n\n", attacco);
         if(attacco>nemici.colpofatale){
             printf("Il drago antico viene sconfitto (Attacco = %d > Colpo fatale = %d)."
-                    "L'eroe rimane con %d punti vita, e oltre a ricevere 12 monete," 
+                    "L'eroe rimane con %d punti vita, e oltre a ricevere 12 monete,"
                     "riceve anche la Spada dell'eroe.\n\n", attacco, nemici.colpofatale, p->HP);
             p->coins += nemici.monete;
             // bisogna scrivere qualcosa in modo che ottenga anche la spada dell'eroe IMPORTANTE!!
@@ -373,8 +375,45 @@ switch(tipo){
 }
 ob.obOttenuti = 0;
 
-while (stanze < MAX_STANZE && ob.obOttenuti < ob.obNecessari) 
+while (stanze < MAX_STANZE && ob.obOttenuti < ob.obNecessari)
 {
+
+    int scelta_Player = 0;
+    int esplora_Menu = 0; //Se 0 resta nel menu altrimenti 1 significa esci
+
+    while(esplora_Menu == 0){
+
+    printf("\nObiettivo: Eliminare %d %s.\n", ob.obNecessari, ob.nomeBersaglio);
+    printf("stato di avanzamento: Eliminati %d su %d %s.\n", ob.obOttenuti, ob.obNecessari, ob.nomeBersaglio);
+    printf("\nMenu di Missione: \n");
+    printf("1. Esplora stanza del Dungeon\n");
+    printf("2. Negozio\n");
+    printf("3. Inventario\n");
+    printf("4. Torna al villaggio (Paga 50 Monete)\n");
+    printf("seleziona una delle opzioni del menu [1-4]:   ");
+
+    scanf("%d", &scelta_Player);
+
+    if(scelta_Player == 1){ //Se il giocatore preme 1, si accede alla stanza del Dungeon
+        esplora_Menu = 1;
+        printf("\nTi addentri nella stanza successiva.\n");
+    }else if(scelta_Player == 2){   //Si accede al negozio se il giocatore preme 2
+        avvia_Negozio(p);
+    }else if(scelta_Player == 3){ //Si accede all'inventario se il giocatore preme 3
+        stampa_Inventario(p);
+    }else if(scelta_Player == 4){ //Se il giocatore preme 4 torna al villaggio solo se ha abbastanza cois
+
+        if(p->coins >= 50){ //Controllo coins
+            p->coins = p->coins - 50; //Paga
+            printf("\nHai pagato 50 monete. Torni al villaggio!\n");
+            return false; //Interrompe la missione portandomi al menu principale
+            }else{
+                printf("\nScelta non valida! Riprova.\n"); //se preme un numero diverso da 1-4
+            }
+    }
+
+}
+
     char * nome_stanza = NULL;
     bool vinto = false;
     bool forzata =

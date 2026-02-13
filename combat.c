@@ -25,7 +25,9 @@ while(round_eroe_vinti < 3 && round_signoreOscuro_vinti < 3){
   if(scelta_eroe == scelta_signoreOscuro){
     printf("\nPareggio!\n");
     round_corrente--; //SE PAREGGIO IL ROUND NON VIENE CONTATO E VA RIPETUTO
-  }else if( scelta_eroe == 1 && scelta_signoreOscuro == 3 || scelta_eroe == 2 && scelta_signoreOscuro == 1 || scelta_eroe == 3 && scelta_signoreOscuro == 2){
+  }else if( (scelta_eroe == 1 && scelta_signoreOscuro == 3) ||
+            (scelta_eroe == 2 && scelta_signoreOscuro == 1) ||
+            (scelta_eroe == 3 && scelta_signoreOscuro == 2)){
     printf("\nL'eroe ha vinto il round!\n");
     round_eroe_vinti++;
   }else{
