@@ -8,7 +8,7 @@ void avvia_negozio(Player *p) {
     
     printf("\n--- NEGOZIO DI MISSIONE ---\n");
     printf("Monete correnti: %d\n", p->coins);
-    printf("1. Pozione (4 Monete) - Cura 1d6 HP\n");
+    printf("1. Pozione (4 Monete) - Cura da 1 a 6 HP\n");
     if (!p->spada_eroe && !p->spada) printf("2. Spada (5 Monete) - +1 Attacco\n");
     if (!p->armatura) printf("3. Armatura (10 Monete) - -1 Danno\n");
     printf("4. Esci\n");

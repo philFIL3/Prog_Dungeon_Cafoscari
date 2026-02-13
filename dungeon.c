@@ -77,7 +77,7 @@ bool vincitore_palude_magione(Player* p, stanza nemici){        // ho creato una
         printf("Il/lo %s viene sconfitto (Attacco=%d > Colpo fatale=%d). L'eroe rimane con %d punti vita, e riceve %d monete.\n\n",nemici.nome, tiro, nemici.colpofatale, p->HP, nemici.monete);
     }else{
         printf("Attacco non sufficiente per sconfiggere il/lo %s (Attacco=%d < Colpo fatale=%d)\n\n", nemici.nome, tiro, nemici.colpofatale);
-         take_damage(p, nemici.danno);
+         take_damage(p, tiro);
 
         if(p->HP <= 0){     // controllo se i punti vita sono stati azzerati
             printf("Sei stato sconfitto! :( \n\n");
@@ -85,11 +85,7 @@ bool vincitore_palude_magione(Player* p, stanza nemici){        // ho creato una
         }
          printf("Il/lo %s infligge %d danni all'eroe. L'eroe rimane con %d punti vita. \n\n", nemici.nome, nemici.danno, p->HP );
     }
-}   // nel caso di aver sconfitto il demone custode della magione infestata bisogna ottenere anche
-    // la chiave del Castello del signore oscuro quindi facciamo un if di controllo con magari visto
-    // che siamo in questo caso l'unica stanza che ha 10 monete è demone custode possiamo appunto mettere
-    // un if di controllo con le monete, se sono 10, otteniamo la chiave del castello del signore oscuro perchè se
-    // siamo arrivati fino a questa riga sicuramente lo abbiamo sconfitto
+}
     }
     return true;
 }
@@ -139,7 +135,6 @@ else {
     }
 }
 
-//da sistemare
 *nome_stanza = stanza_appoggio.nome;
     return vincitore_palude_magione(p, stanza_appoggio); // se la vita del giocatore è stato azzerata si torna al menù iniziale
 
@@ -281,7 +276,7 @@ bool vincitore_grotta(Player *p, stanza nemici, int tiro){
             printf("Viene lanciato un dado per stabilire il danno della trappola");
             int danno = dado_nemici();
             printf("Il risultato : %d", danno);
-            take_damage(p, nemici.danno);
+            take_damage(p, danno);
             printf("La trappola infligge %d danni all'eroe. L'eroe rimane con %d punti vita.\n\n", danno, p->HP);
         }
           if(p->HP <= 0){
@@ -347,7 +342,6 @@ else {
 }
 *nome_stanza = stanza_appoggio.nome;
 bool vinto = vincitore_grotta(p, stanza_appoggio, tiro); // Mi sto chiedendo se il giocatore è riuscito a sopravvivere al combattimento contro il nemico
-   // se ha vinto si torna al menù di missione
 if (vinto && strcmp(stanza_appoggio.nome, "Drago Antico")== 0){
     p->spada_eroe = true;
     printf("Hai ottenuto la Spada dell'Eroe\n");
@@ -398,9 +392,9 @@ while (stanze < MAX_STANZE && ob.obOttenuti < ob.obNecessari)
         esplora_Menu = 1;
         printf("\nTi addentri nella stanza successiva.\n");
     }else if(scelta_Player == 2){   //Si accede al negozio se il giocatore preme 2
-        avvia_Negozio(p);
+        avvia_negozio(p);
     }else if(scelta_Player == 3){ //Si accede all'inventario se il giocatore preme 3
-        stampa_Inventario(p);
+        stampa_inventario(p);
     }else if(scelta_Player == 4){ //Se il giocatore preme 4 torna al villaggio solo se ha abbastanza cois
 
         if(p->coins >= 50){ //Controllo coins
