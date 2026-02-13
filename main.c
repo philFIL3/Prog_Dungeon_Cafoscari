@@ -27,18 +27,18 @@ int main(){
     while (runGame)
     {
         opzione = menuprincipale();
-        
+
         if (konami(opzione)){
             opzione = menuprincipaletrucchi();
     }
-    
+
     switch (opzione)
     {
     case '1':
         head = nuova_partita(head, &currentplayer);
         counter = 0;
         head = menuVillaggio(head, &currentplayer, counter);
-  
+
         break;
         case '2':
         counter = carica_partita(head, &currentplayer);
@@ -48,12 +48,12 @@ int main(){
         case'3':
         esecuzionetrucchi(&currentplayer, head);
 
-        
+
         break;
         case'4':
         runGame = 0;
         break;
-    
+
     default:
         printf("opzione invalida, scegli correttamente\n");
     break;

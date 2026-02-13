@@ -42,6 +42,9 @@ char menuprincipaletrucchi(){
   scanf(" %c", &sceltatrucchi);
   return sceltatrucchi;
 }
+
+
+
 //menu del Villaggio
 //menu missioni
 void seleziona_missione(Player *p){
@@ -66,8 +69,8 @@ void seleziona_missione(Player *p){
  if(scelta_missione == 1){
  if(p->stato_missioni[0] == 0){   //controllo per verificare che non vengano selezionate missioni completate
   if (dungeon_controller(p, PALUDE)) {
-  p->stato_missioni[0] = 1; 
-  p->missione_completata++; 
+  p->stato_missioni[0] = 1;
+  p->missione_completata++;
   }
  }else{
   printf("\nMissione gia' completata!\n");
@@ -97,7 +100,7 @@ void seleziona_missione(Player *p){
  }
  if(scelta_missione == 4){
  if(p->missione_completata == 3){
-  if(scontro_SignoreOscuro() == 1){ 
+  if(scontro_SignoreOscuro() == 1){
   exit(0);
  }
  }else{
